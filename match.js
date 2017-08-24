@@ -16,7 +16,7 @@ class Match {
         * @private
         */
         this._participant1 = participant1;
-        
+
         /**
         * The second participant
         * @type {?Participant}
@@ -24,16 +24,6 @@ class Match {
         */
         this._participant2 = participant2;
 
-        /**
-         * The state of the match
-         * @type {MatchState}
-         * @private
-         */
-        this._state = MatchState.WaitingOnPlayers;
-
-        if (participant1 && participant2) {
-            this._state = MatchState.Ready;
-        }
 
         /**
          * The participant 1 origin (The match where he'll come from)
@@ -68,6 +58,19 @@ class Match {
          * @type {number}
          */
         this.MatchId = null;
+
+        /**
+         * The state of the match
+         * @type {MatchState}
+         * @private
+         */
+        this._state = MatchState.WaitingOnPlayers;
+
+        // If we have both participant when creating the match, it means the match is ready to be played
+        if (participant1 && participant2) {
+            this._state = MatchState.Ready;
+        }
+
     }
 
     /**
@@ -87,7 +90,7 @@ class Match {
     get SecondParticipant() {
         return this._participant2;
     }
-    
+
     /**
      * The match the winner will go to
      * @type {Match}
@@ -108,7 +111,7 @@ class Match {
 
     /**
      * The first participant's originating match
-     * @type {Match}
+     * @type {?Match}
      * @readonly
      */
     get Participant1Origin() {
@@ -124,11 +127,11 @@ class Match {
         this._participant1Origin = match;
     }
 
-     /**
-     * The second participant's originating match
-     * @type {Match}
-     * @readonly
-     */
+    /**
+    * The second participant's originating match
+    * @type {?Match}
+    * @readonly
+    */
     get Participant2Origin() {
         return this._participant2Origin;
     }
@@ -147,11 +150,11 @@ class Match {
      */
     GetPrintableFormat() {
         let output = this.MatchId;
-        if(this._participant1) {
+        if (this._participant1) {
             output = output + " P1 : " + this._participant1.DisplayName;
         }
 
-        if(this._participant2) {
+        if (this._participant2) {
             output = output + " P2 : " + this._participant2.DisplayName;
         }
         return output;

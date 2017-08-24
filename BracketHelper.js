@@ -1,30 +1,30 @@
 const Match = require(`./match`);
 const Participant = require(`./participant`);
-
+const Bracket = require(`./bracket`);
 /**
  * An helper used for bracket generation and anything related
  */
 const BracketHelper = Object.freeze({
     /**
      * Generates a bracket for a list of participants
-     * @param {Set<Participant>} parts the participants of the tournament
-     * @return {Match} the match that is the finale of the tournament
+     * @param {Array<Participant>} parts the participants of the tournament
+     * @return {Bracket} the resulting bracket for the participants
      */
     GenerateBracket: function (parts) {
         let matchId = 1;
         /**
          * Generates a tournament bracket recursivly
-         * @param {number} numPlayers 
+         * @param {Array<Participant>} participants 
          * @returns {Match} the match that is consider the root of the tournament
          */
         function generateBracketRecur(participants) {
             // Gets the current number of player
-            const numPlayers = participants.size;
+            const numPlayers = participants.length;
             // If we have 3 players we need to make a match that is seeded
             if (numPlayers === 3) {
                 // Gets the first in the list and remove it afterwards.
-                const firstParticipant = participants.values().next().value;
-                participants.delete(firstParticipant);
+                const firstParticipant = participants[0];
+                participants.pop(firstParticipant);
                 // Creates the seeded match (Containing the first participant only)
                 const toReturn = new Match(firstParticipant);
                 toReturn.MatchId = matchId;
@@ -39,9 +39,8 @@ const BracketHelper = Object.freeze({
             // If we have 2 players we need to stop the recursivity and return a match with those two players
             if (numPlayers === 2) {
                 // Gets the two participants out of the set
-                const it = participants.values();
-                const firstParticipant = it.next().value;
-                const secondParticipant = it.next().value;
+                const firstParticipant = participants[0];
+                const secondParticipant = participants[1];
                 // Create the match with those two participant
                 const toReturn = new Match(firstParticipant, secondParticipant);
                 toReturn.MatchId = matchId;
@@ -49,22 +48,11 @@ const BracketHelper = Object.freeze({
                 return toReturn;
             }
 
-            // Creates two empty set
-            const leftSide = new Set();
-            const rightSide = new Set();
             // Divide the number of player by two
             const firstHalfOfPlayers = Math.ceil(numPlayers / 2);
-            let i = 0;
-            // Itterate trough the participants
-            participants.forEach((p) => {
-                // If we are currently short of players for the first half, add them there, otherwise, add them on the other side
-                if (i < firstHalfOfPlayers) {
-                    leftSide.add(p);
-                } else {
-                    rightSide.add(p);
-                }
-                i++;
-            });
+
+            const leftSide = participants.slice(0, firstHalfOfPlayers);
+            const rightSide = participants.slice(firstHalfOfPlayers, participants.length);
 
             // Generate the two matches that represent both our sides
             const leftMatch = generateBracketRecur(leftSide);
@@ -83,39 +71,9 @@ const BracketHelper = Object.freeze({
 
             return joiningMatch;
         }
-
-        return generateBracketRecur(parts);
+        
+        return new Bracket(generateBracketRecur(parts));
     },
-    /**
-    * Prints the bracket for a tournament
-    * @param {Match} match The root of the bracket you want to prints
-    */
-    PrintBracket: function (match) {
-        const nextRow = [];
-
-        // If we are not an array (The root) just create an array with the match inside
-        if (!Array.isArray(match)) {
-            match = [match];
-        }
-
-        let output = `|`;
-        // For each match that we have to print for this row
-        match.forEach((m) => {
-            // Add the match to the output
-            output = `${output} ${m.GetPrintableFormat()} |`;
-            // If our match has children matches, adds them to the nextRow
-            if (m.Participant1Origin) nextRow.push(m.Participant1Origin);
-            if (m.Participant2Origin) nextRow.push(m.Participant2Origin);
-        });
-
-        // Outputs the result of the current row
-        console.log(output);
-
-        // If we have matches in our nextRow, print it
-        if (nextRow && nextRow.length) {
-            BracketHelper.PrintBracket(nextRow);
-        }
-    }
 });
 
 module.exports = BracketHelper;

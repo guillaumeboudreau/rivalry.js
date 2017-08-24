@@ -1,3 +1,5 @@
+const BracketHelper = require(`./brackethelper`);
+
 /**
  * The tournament object 
  */
@@ -23,11 +25,18 @@ class Tournament {
 
         /**
          * The list of participants in the tournament
-         * @type {Set<Participant>}
+         * @type {Array<Participant>}
          * @private
          * @readonly
          */
-        this._participants = new Set();
+        this._participants = [];
+
+        /**
+         * The currently generated bracket of the tournament
+         * @type {Bracket}
+         * @private
+         */
+        this._bracket = null;
     }
 
     /**
@@ -35,15 +44,15 @@ class Tournament {
      * @param {Participant} participant 
      */
     AddParticipant(participant) {
-        this._participants.add(participant);
+        this._participants.push(participant);
     }
 
     /**
-     * Generates a bracket with the current state of the tournament
-     * @return {Bracket}
+     * Generates a bracket with the current state of the tournament, call this once all your participants are added
+     * If you end up adding more participants after the bracket has been generated, just call this once more and the bracket will be updated
      */
     GenerateBracket() {
-
+        this._bracket = BracketHelper.GenerateBracket(this._participants);
     }
 
     /**
@@ -64,3 +73,5 @@ class Tournament {
         return this._creationDate;
     }
 }
+
+module.exports = Tournament;
