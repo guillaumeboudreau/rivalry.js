@@ -1,4 +1,4 @@
 module.exports = {
-    Participant : require(`./participant`),
-    Tournament : require(`./tournament`)
+    Participant : require(`./src/participant`),
+    Tournament : require(`./src/tournament`)
 };
