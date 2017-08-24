@@ -1,4 +1,5 @@
 const BracketHelper = require(`./brackethelper`);
+const Bracket = require(`./bracket`);
 
 /**
  * The tournament object 
@@ -71,6 +72,15 @@ class Tournament {
      */
     get CreationDate() {
         return this._creationDate;
+    }
+
+    /**
+     * Returns the bracket if it has been generated
+    * @type {?Bracket}
+    * @readonly
+    */
+    get Bracket() {
+        return this._bracket;
     }
 }
 

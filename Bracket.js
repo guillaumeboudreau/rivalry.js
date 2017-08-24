@@ -1,4 +1,5 @@
 const MatchState = require(`./matchstate`);
+const Match = require(`./match`);
 
 class Bracket {
     /**
@@ -12,6 +13,14 @@ class Bracket {
          * @private
          */
         this._matches = [];
+
+
+        /**
+         * The root match of the bracket
+         * @type {Match}
+         * @private
+         */
+        this._root = root;
         this._buildMatchList(root);
     }
 
@@ -34,6 +43,15 @@ class Bracket {
      */
     GetReadyMatches() {
         return this._matches.filter((value) => { return value === MatchState.Ready; });
+    }
+
+    /**
+     * Returns the root match of the bracket
+    * @type {Match}
+    * @readonly
+    */
+    get RootMatch() {
+        return this._root;
     }
 }
 

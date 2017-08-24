@@ -1,9 +1,3 @@
-const Participant = require(`../participant`);
-const Tournament = require(`../tournament`);
+const Rivalry = require(`..`);
 
-const t = new Tournament();
-
-t.AddParticipant(new Participant("bob"));
-t.AddParticipant(new Participant("john"));
-
-t.GenerateBracket();
+const test = new Rivalry.Participant("bob");
