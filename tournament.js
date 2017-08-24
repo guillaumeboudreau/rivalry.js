@@ -11,9 +11,23 @@ class Tournament {
          * @type {date}
          * @private
          */
-        this.startingDate = startingDate;
+        this._startingDate = startingDate;
 
-        this.participants = new Set();
+        /**
+         * The creation date of the tournament
+         * @type {date}
+         * @private
+         * @readonly
+         */
+        this._creationDate = Date.now();
+
+        /**
+         * The list of participants in the tournament
+         * @type {Set<Participant>}
+         * @private
+         * @readonly
+         */
+        this._participants = new Set();
     }
 
     /**
@@ -21,7 +35,15 @@ class Tournament {
      * @param {Participant} participant 
      */
     AddParticipant(participant) {
-        this.participants.add(participant);
+        this._participants.add(participant);
+    }
+
+    /**
+     * Generates a bracket with the current state of the tournament
+     * @return {Bracket}
+     */
+    GenerateBracket() {
+
     }
 
     /**
@@ -30,6 +52,15 @@ class Tournament {
      * @readonly
      */
     get StartingDate() {
-        return this.startingDate;
+        return this._startingDate;
+    }
+
+    /**
+     * Returns the creation date of the tournament
+     * @type {date}
+     * @readonly
+     */
+    get CreationDate() {
+        return this._creationDate;
     }
 }

@@ -8,8 +8,8 @@ class Participant {
      * @param {any} [data] Custom data that you can store in the participant to use as you wish 
      */
     constructor(displayName, data = {}) {
-        this.displayName = displayName;
-        this.data = data;
+        this._displayName = displayName;
+        this._data = data;
     }
 
     /**
@@ -18,7 +18,7 @@ class Participant {
      * @readonly
      */
     get DisplayName() {
-        return this.displayName;
+        return this._displayName;
     }
 
     /**
@@ -27,7 +27,7 @@ class Participant {
      * @readonly
      */
     get Data() {
-        return this.data;
+        return this._data;
     }
 }
 
