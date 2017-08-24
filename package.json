@@ -1,0 +1,37 @@
+{
+  "name": "rivalry",
+  "version": "0.1.0",
+  "description": "This package is used for managing tournaments",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guillaumeboudreau/rivalry.js.git"
+  },
+  "keywords": [
+    "tournament"
+  ],
+  "author": "Guillaume Boudreau <gbchromebook@gmail.com>",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/brentertz/scapegoat/blob/master/LICENSE-MIT"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/guillaumeboudreau/rivalry.js/issues"
+  },
+  "homepage": "https://github.com/guillaumeboudreau/rivalry.js#readme",
+  "devDependencies": {
+    "chai": "^4.1.1",
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^4.3.1",
+    "mocha": "^3.5.0",
+    "should": "^11.2.1"
+  }
+}
